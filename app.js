@@ -75,14 +75,17 @@ app.post('/reply', function (request, response) {
 
 // frontend routes =========================================================
 
-// route to handle all angular requests
-app.get('*', function(req, res) {
-    res.render('index', {
-        apikey:config.datamcfly.api_key,
-        appname:config.datamcfly.app_name,
-    });
-});
- 
+// Create basic auth middleware used to authenticate all admin requests
+var auth = express.basicAuth(config.un, config.pw);
+
+// route to handle all requests
+app.get('*', auth, function(req, res) {
+	res.render('index', {
+		apikey:config.datamcfly.api_key,
+		appname:config.datamcfly.app_name,
+	});
+}); 
+
 var server = app.listen(port, function() {
 	console.log('Listening on port %d', server.address().port);
 });
