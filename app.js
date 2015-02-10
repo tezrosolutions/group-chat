@@ -77,7 +77,7 @@ app.post('/reply', function (request, response) {
 
 // route to handle all angular requests
 app.get('*', function(req, res) {
-    res.render('home', {
+    res.render('index', {
         apikey:config.datamcfly.api_key,
         appname:config.datamcfly.app_name,
     });
