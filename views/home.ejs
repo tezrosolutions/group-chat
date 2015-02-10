@@ -31,10 +31,6 @@
 //	inititialize our Data McFly object
 			var messagesRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "messages");
 			var groupRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "group");
-
-//	start our chatManager.
-			var myChatManager = new chatManager( messagesRef );
-			myChatManager.updateChats();
 		});
 	</script>
 </body>
