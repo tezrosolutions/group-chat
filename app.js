@@ -20,6 +20,25 @@ var datamcfly = require('datamcfly');
 var messagesRef = datamcfly.init(config.datamcfly.app_name, "messages", config.datamcfly.api_key);
 var groupRef = datamcfly.init(config.datamcfly.app_name, "group", config.datamcfly.api_key);
 
+/*
+	message:
+		-	_id
+		-	sid
+		-	type
+		-	direction
+		-	tstamp
+		-	fromNumber
+		-	textMessage
+		-	fromCity	
+		-	fromState
+		-	fromCountry
+		-	groupId
+	group
+		-	_id
+		-	groupNumber
+		-	name
+		-	number
+*/
 
 // backend routes =========================================================
 
@@ -78,7 +97,7 @@ app.post('/reply', function (request, response) {
 // Create basic auth middleware used to authenticate all admin requests
 var auth = express.basicAuth(config.un, config.pw);
 
-// route to handle all requests
+// route to handle all frontend requests, with a password to protect unauthorized access....
 app.get('*', auth, function(req, res) {
 	res.render('index', {
 		apikey:config.datamcfly.api_key,

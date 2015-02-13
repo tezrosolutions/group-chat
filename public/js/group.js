@@ -1,8 +1,12 @@
-var chatManager = function(datamcflyRef) {
-	this.datamcflyRef = datamcflyRef;
-};
+var groupManager = function(groupRef, messagesRef) {
+//	reference to our group collection...
+	this.groupRef = groupRef;
 
-chatManager.prototype = {
+//	reference to our messages collection...
+	this.messagesRef = messagesRef;
+};
+/*
+groupManager.prototype = {
 	chats: [], // collection of chats in progress
 
 	getChat: function(fromNumber) {
@@ -101,3 +105,4 @@ chat.prototype = {
 		$('#' + this.chatName).append("<div class='message_" + direction + "'>" + message + "<div class='tstamp'>" + tstamp + "</div></div>");
 	}
 };
+*/

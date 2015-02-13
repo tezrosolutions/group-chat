@@ -8,29 +8,37 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="https://cdn.datamcfly.com/DataMcFly.js?latest=1"></script>
-	<script src="/js/chat.js"></script>
+	<script src="/js/group.js"></script>
 	
-	<title>SMS Contact Center, powered by Data McFly and Twilio</title>
+	<title>Group Chat, powered by Data McFly and Twilio</title>
 </head>
 <body>
 	<div class='container'>
-		<br />
-		<div class="well">
-			<p class='homefont'>Welcome to your SMS Contact Center</p>
-			
-			<p class='homefont'>This call center is the start of a modern day call center.</p>
-			
-			<p class='homefont'>Take a look around and give us a try.</p>
-		</div>
-		<hr />
-		<h3>Incoming messages</h3>
-		<div id="templateContainer"></div>
+		<div class="row">
+			<div class="col-md-4">
+				<h3>Group Members</h3>
+				<div id="group_wrapper"></div>
+				<form id="group_form" method="post" accept-charset="utf-8">
+				<p>
+					<input type="text" name="name" value="" id="name" placeholder="Name" />
+					<input type="tel" name="phone" value="" id="phone" placeholder="Phone Number" />
+					<input type="submit" value="Add Member" />
+				</p>
+				</form>
+			</div>
+			<div class="col-md-8">
+				<h3>Chat Log</h3>
+				<div id="chatContainer"></div>
+			</div>
 	</div>
 	<script>
 		$(function(){
 //	inititialize our Data McFly object
 			var messagesRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "messages");
 			var groupRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "group");
+
+			var myGroupManager = new groupManager( groupRef, messagesRef );
+			myGroupManager.updateChats();
 		});
 	</script>
 </body>
