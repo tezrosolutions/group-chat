@@ -6,3 +6,7 @@ body{font-size:12pt;font-family:helvetica}
 .tstamp{font-size:9px;padding:2px;margin-bottom:10px;border-bottom:1px dotted #666;color:#666}
 .error{color:red;text-align:center}
 .messageForm textarea{float:left;width:220px;margin:5px}
+
+#phone{
+	width:130px;
+}
