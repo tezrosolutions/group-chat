@@ -41,7 +41,14 @@
 			</div>
 			<div class="col-md-4 col-md-offset-2">
 				<h3>Chat Log</h3>
-				<div id="chatContainer"></div>
+				<div class='example-chat-toolbar'>
+					<label for='nameInput'>Username:</label>
+					<input type="text" id="nameInput" placeholder="enter a username..." required required=true />
+				</div>
+				<ul id='messagesDiv' class='example-chat-messages'></ul>
+				<footer>
+					<input type="text" id="messageInput" placeholder="Type a message..." required required=true />
+				</footer>
 			</div>
 	</div>
 	<script>
