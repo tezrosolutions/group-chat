@@ -14,10 +14,12 @@ body{font-size:12pt;font-family:helvetica}
 #chatBox{
 	background-color: #f8f8f8;
 	background: rgb(229, 228, 228);
+	padding:10px;
 }
 
 .hide {
-  display: none; }
+	display: none; 
+}
 
 .chat {
 	font-family: "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
