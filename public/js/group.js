@@ -34,8 +34,8 @@ groupManager.prototype.start = function(){
 		e.preventDefault();
 		var member = {
 			'groupNumber': _this.group_number,
-			'name': $("#name").val(),
-			'number': clean_phone( $("#phone").val() )
+			'memberName': $("#name").val(),
+			'memberNumber': clean_phone( $("#phone").val() )
 		};
 
 console.log( member );
@@ -96,17 +96,13 @@ console.log( member );
 //	Display group members
 groupManager.prototype.displayGroup = function(){
 	$('#group_wrapper').html('');
-	if( this.group_members != null ){
-		for (var i in this.group_members ) {
-			var member = this.group_members[i];
-			if( member !== undefined ){
-				if( member.phone !== undefined ){
-					var html = '';
-					html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
-					$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
-				}
-			}
-		}	
+	for (var i in this.group_members ) {
+		var member = this.group_members[i];
+		if( member !== undefined ){
+			var html = '';
+			html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
+			$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+		}
 	}
 };
 
