@@ -80,15 +80,17 @@ function sendMessage( group_number, from_name, from_number, message ){
 	var msg = from_name + ": " + message;
 //	loop through the group members and get list of people to message:
 	groupRef.where( {"number":{"$not":from_number}} ).on( "value", function ( data ){
-		data.forEach( function( snapshot ){
-			var member = snapshot.value();
-			client.sendMessage( {
-				to:member.number, 
-				from:group_number,
-				body:msg
-			}, function( err, data ) {
+		if( data.count() ){
+			data.forEach( function( snapshot ){
+				var member = snapshot.value();
+				client.sendMessage( {
+					to:member.number, 
+					from:group_number,
+					body:msg
+				}, function( err, data ) {
+				});
 			});
-		});
+		}
 	});
 }
 
@@ -137,6 +139,7 @@ app.get('*', auth, function(req, res) {
 	res.render('index', {
 		api_key:config.datamcfly.api_key,
 		app_name:config.datamcfly.app_name,
+		group_number:config.twilio.from_number
 	});
 }); 
 

@@ -1,16 +1,53 @@
-var groupManager = function(api_key, app_name) {
+var groupManager = function(api_key, app_name, group_number) {
+//	store the group number
+	this.group_number = group_number;
 //	reference to our messages collection...
 	this.messagesRef = new DataMcFly(api_key, app_name, "messages");
 
 //	reference to our group collection...
-	this. groupRef = new DataMcFly(api_key, app_name, "group");
+	this.groupRef = new DataMcFly(api_key, app_name, "group");
+	
+	this.group_members = [];
 };
 groupManager.prototype.start = function(){
 //	list group members if any
+	var _this = this;
 
+	this.groupRef.on("value", function( data ){
+		if( data.count() ){		
+			data.forEach( function( snapshot ){
+				var member = snapshot.value();
+				_this.group_members[member._id] = member;				
+			});
+		}
+		_this.displayGroup();
+	});
 //	listen for new members being added
+	this.groupRef.on("added", function( snapshot ){
+		var member = snapshot.value();
+		_this.group_members[member._id] = undefined;
+		_this.displayGroup();
+	});
+
+//	save new group member to our app
+	$("#group_form").submit( function(e){
+		var member = {
+			'groupNumber': this.group_number,
+			'name':$("#name").val(),
+			'number':$("#phone").val()
+		};
+		this.groupRef.push( member );
+		$("#name").val('');
+		$("#phone").val('');
+		return false;
+	});
 
 //	listen for members being removed
+	this.groupRef.on("removed", function( snapshot ){
+		var member = snapshot.value();
+		_this.group_members[member._id] = member;
+		_this.displayGroup();
+	});
 
 //	list any existing chat message
 
@@ -18,6 +55,24 @@ groupManager.prototype.start = function(){
  
 //	listen for outgoing chat messages	
 };
+
+groupManager.prototype.displayGroup = function(){
+	
+};
+
+groupManager.prototype.displayChat = function(){
+	var _this = this;
+	$('#group_wrapper').html('');
+	for (var i in this.group_members ) {	
+		var member = this.group_members[i];
+		if( member != undefined ){
+			var html = '';
+			html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
+			$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+		}
+	}
+};
+
 
 /*
 groupManager.prototype = {
