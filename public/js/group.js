@@ -74,7 +74,6 @@ console.log( member );
 	});
 
 //	listen for outgoing chat messages	
-	// When the user presses enter on the message input, write the message to firebase.
 	$('#msg_form').submit( function(e){
 		e.preventDefault();
 		var message = {

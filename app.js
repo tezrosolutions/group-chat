@@ -20,23 +20,6 @@ var datamcfly = require('datamcfly');
 var messagesRef = datamcfly.init(config.datamcfly.app_name, "messages", config.datamcfly.api_key);
 var groupRef = datamcfly.init(config.datamcfly.app_name, "groups", config.datamcfly.api_key);
 
-/*
-	message:
-		-	_id
-		-	sid
-		-	tstamp
-		-	fromNumber
-		-	textMessage
-		-	fromCity	
-		-	fromState
-		-	fromCountry
-		-	groupNumber
-	group
-		-	_id
-		-	groupNumber
-		-	name
-		-	number
-*/
 
 // listen for updates from Data McFly routes =========================================================
 
@@ -84,14 +67,7 @@ groupRef.on("removed", function ( data ){
 		fromCountry:"",
 		groupNumber:snapshot.groupNumber
 	});
-/*
-	sendMessage( 
-		snapshot.groupNumber,
-		"Admin",
-		snapshot.groupNumber,
-		msg
-	);
-*/
+
 });
 
 //	broadcast a message to the group
