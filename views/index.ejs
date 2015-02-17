@@ -9,6 +9,7 @@
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 	<script src="https://cdn.datamcfly.com/DataMcFly.js?latest=1"></script>
+	<script src="https://cdn.datamcfly.com/libs/phone.js"></script>
 	<script src="/js/group.js"></script>
 	
 	<title>Group Chat, powered by Data McFly and Twilio</title>
@@ -32,7 +33,7 @@
 						<div class="form-group">
 							<div class="input-group">
 								<div class="input-group-addon"><i class="fa fa-mobile"></i></div>
-								<input type="tel" class="form-control" id="phone" id="name" placeholder="+1 111 222 3333"/>
+								<input type="tel" class="form-control" id="phone" id="name" placeholder="+11112223333"/>
 							</div>
 						</div>
 						<button type="submit" class="btn btn-primary">Save</button>
@@ -51,12 +52,9 @@
 	</div>
 	<script>
 		$(function(){
-//	inititialize our Data McFly object
-			var messagesRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "messages");
-			var groupRef = new DataMcFly("<%= apikey %>", "<%= appname %>", "group");
-
-//			var myGroupManager = new groupManager( groupRef, messagesRef );
-//			myGroupManager.updateChats();
+//			inititialize our Data McFly object
+			var myGroupManager = new groupManager( "<%= api_key %>", "<%= app_name %>" );
+			myGroupManager.start();
 		});
 	</script>
 </body>

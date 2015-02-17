@@ -24,15 +24,13 @@ var groupRef = datamcfly.init(config.datamcfly.app_name, "group", config.datamcf
 	message:
 		-	_id
 		-	sid
-		-	type
-		-	direction
 		-	tstamp
 		-	fromNumber
 		-	textMessage
 		-	fromCity	
 		-	fromState
 		-	fromCountry
-		-	groupId
+		-	groupNumber
 	group
 		-	_id
 		-	groupNumber
@@ -40,56 +38,93 @@ var groupRef = datamcfly.init(config.datamcfly.app_name, "group", config.datamcf
 		-	number
 */
 
+// listen for updates from Data McFly routes =========================================================
+
+//	when a new message is added to the Data McFly app, send it via Twilio...
+messagesRef.on("added", function (data ){
+	var snapshot = data.value();
+	sendMessage( 
+		snapshot.groupNumber,
+		snapshot.fromName,
+		snapshot.fromNumber,
+		snapshot.message
+	);	
+});
+
+groupRef.on("added", function ( data ){
+	var snapshot = data.value();
+	var msg = snapshot.name + ' has joined the group';
+	//	send broadcast that new group member has been added
+	sendMessage( 
+		snapshot.groupNumber,
+		"Admin",
+		snapshot.groupNumber,
+		msg
+	);
+});
+
+groupRef.on("removed", function ( data ){
+	var snapshot = data.value();
+	var msg = snapshot.name + ' has left the group';
+	//	send broadcast that a group member has been removed
+	sendMessage( 
+		snapshot.groupNumber,
+		"Admin",
+		snapshot.groupNumber,
+		msg
+	);
+});
+
+//	broadcast a message to the group
+function sendMessage( group_number, from_name, from_number, message ){
+	var msg = from_name + ": " + message;
+//	loop through the group members and get list of people to message:
+	groupRef.where( {"number":{"$not":from_number}} ).on( "value", function ( data ){
+		data.forEach( function( snapshot ){
+			var member = snapshot.value();
+			client.sendMessage( {
+				to:member.number, 
+				from:group_number,
+				body:msg
+			}, function( err, data ) {
+			});
+		});
+	});
+}
+
+
 // backend routes =========================================================
 
 //	listen for incoming sms messages
 app.post('/message', function (request, response) {
 	var d = new Date();
 	var date = d.toLocaleString();
-
-	messagesRef.push({
-		sid: request.param('MessageSid'),
-		type:'text',
-		direction: "inbound",
-		tstamp: date,
-		fromNumber:request.param('From'),
-		textMessage:request.param('Body'),
-		fromCity:request.param('FromCity'),
-		fromState:request.param('FromState'),
-		fromCountry:request.param('FromCountry')
+		
+	groupRef.where( {"number":request.param('From')} ).limit(1).on( "value", function ( data ){
+		if( data.count() ){
+			data.forEach( function( snapshot ){
+				var member = snapshot.value();
+				messagesRef.push({
+					sid: request.param('MessageSid'),
+					type:'text',
+					tstamp: date,
+					fromName:member.name,
+					fromNumber:request.param('From'),
+					message:request.param('Body'),
+					fromCity:request.param('FromCity'),
+					fromState:request.param('FromState'),
+					fromCountry:request.param('FromCountry'),
+					groupNumber:request.param('To')
+				});
+			});
+		}
 	});
-
 	var resp = new twilio.TwimlResponse();
-	resp.message('Thanks for the message, an agent will get back to you shortly.');
+	resp.message('Message received.');
 	response.writeHead(200, {
 		'Content-Type':'text/xml'
 	});
 	response.end(resp.toString());
-});
-
-//	listen for replies
-app.post('/reply', function (request, response) {
-	var d = new Date();
-	var date = d.toLocaleString();
-
-	messagesRef.push({
-		type:'text',
-		direction: "outbound",
-		tstamp: date,
-		fromNumber:request.param('From'),
-		textMessage:request.param('Body'),
-		fromCity:'',
-		fromState:'',
-		fromCountry:''
-	});
-
-	client.sendMessage( {
-		to: request.param('To'), 
-		from: config.twilio.from_number,
-		body: request.param('Body')
-	}, function( err, data ) {
-//		console.log( data.body );
-	});
 });
 
 // frontend routes =========================================================
@@ -100,8 +135,8 @@ var auth = express.basicAuth(config.un, config.pw);
 // route to handle all frontend requests, with a password to protect unauthorized access....
 app.get('*', auth, function(req, res) {
 	res.render('index', {
-		apikey:config.datamcfly.api_key,
-		appname:config.datamcfly.app_name,
+		api_key:config.datamcfly.api_key,
+		app_name:config.datamcfly.app_name,
 	});
 }); 
 

@@ -1,10 +1,24 @@
-var groupManager = function(groupRef, messagesRef) {
-//	reference to our group collection...
-	this.groupRef = groupRef;
-
+var groupManager = function(api_key, app_name) {
 //	reference to our messages collection...
-	this.messagesRef = messagesRef;
+	this.messagesRef = new DataMcFly(api_key, app_name, "messages");
+
+//	reference to our group collection...
+	this. groupRef = new DataMcFly(api_key, app_name, "group");
 };
+groupManager.prototype.start = function(){
+//	list group members if any
+
+//	listen for new members being added
+
+//	listen for members being removed
+
+//	list any existing chat message
+
+//	listen for incoming chat messages
+ 
+//	listen for outgoing chat messages	
+};
+
 /*
 groupManager.prototype = {
 	chats: [], // collection of chats in progress
