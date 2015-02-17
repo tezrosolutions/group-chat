@@ -8,7 +8,7 @@ module.exports = {
 	//	Data McFly settings
 	datamcfly: {
 		api_key: "74c8064f-cd6f-4c07-8baf-b1d241496eec",
-		app_name: "sample"
+		app_name: "groupchat"
 	},
 	//	Username and password for admin section.
 	un: 'admin',
