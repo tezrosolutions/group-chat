@@ -102,7 +102,7 @@ app.post('/message', function (request, response) {
 	var d = new Date();
 	var date = d.toLocaleString();
 		
-	groupRef.where( {"memberN":request.param('From')} ).limit(1).on( "value", function ( data ){
+	groupRef.where( {"memberNumber":request.param('From')} ).limit(1).on( "value", function ( data ){
 		if( data.count() ){
 			data.forEach( function( snapshot ){
 				var member = snapshot.value();
