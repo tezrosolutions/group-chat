@@ -25,7 +25,6 @@ groupManager.prototype.start = function(){
 //	listen for new members being added
 	this.groupRef.on("added", function( snapshot ){
 		var member = snapshot.value();
-console.log( member );		
 		_this.group_members[member._id] = member;
 		_this.displayGroup();
 	});
@@ -34,12 +33,11 @@ console.log( member );
 	$("#group_form").submit( function(e){
 		e.preventDefault();
 		var member = {
-			'groupNumber': this.group_number,
+			'groupNumber': _this.group_number,
 			'name':$("#name").val(),
 			'number':$("#phone").val()
 		};
-console.log( member );
-		this.groupRef.push( member );
+		_this.groupRef.push( member );
 		$("#name").val('');
 		$("#phone").val('');
 		return false;
@@ -97,10 +95,12 @@ groupManager.prototype.displayGroup = function(){
 	$('#group_wrapper').html('');
 	for (var i in this.group_members ) {	
 		var member = this.group_members[i];
-		if( member != undefined ){
-			var html = '';
-			html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
-			$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+		if( member !== undefined ){
+			if( member.phone !== undefined ){
+				var html = '';
+				html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
+				$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+			}
 		}
 	}	
 };
