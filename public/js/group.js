@@ -35,7 +35,7 @@ groupManager.prototype.start = function(){
 		var member = {
 			'groupNumber': _this.group_number,
 			'name':$("#name").val(),
-			'number':$("#phone").val()
+			'number':clean_phone( $("#phone").val() )
 		};
 		_this.groupRef.push( member );
 		$("#name").val('');
@@ -93,16 +93,18 @@ groupManager.prototype.start = function(){
 //	Display group members
 groupManager.prototype.displayGroup = function(){
 	$('#group_wrapper').html('');
-	for (var i in this.group_members ) {	
-		var member = this.group_members[i];
-		if( member !== undefined ){
-			if( member.phone !== undefined ){
-				var html = '';
-				html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
-				$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+	if( this.group_members != null ){
+		for (var i in this.group_members ) {
+			var member = this.group_members[i];
+			if( member !== undefined ){
+				if( member.phone !== undefined ){
+					var html = '';
+					html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
+					$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
+				}
 			}
-		}
-	}	
+		}	
+	}
 };
 
 //	Display chat messages
