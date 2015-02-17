@@ -71,23 +71,22 @@ groupManager.prototype.start = function(){
 
 //	listen for outgoing chat messages	
 	// When the user presses enter on the message input, write the message to firebase.
-	$('#messageInput').keypress(function (e) {
-		if (e.keyCode == 13) {
-			var d = new Date();
-			var date = d.toLocaleString();
-			var message = {
-					"tstamp": date,
-					"fromName": "Admin",
-					"fromNumber": "",
-					"message": $('#messageInput').val(),
-					"fromCity": "",
-					"fromState": "",
-					"fromCountry": "",
-					"groupNumber": _this.group_number
-			}
-			_this.messagesRef.push( message );
-			$('#messageInput').val('');
+	$('#msg_form').submit( function(e){
+		var d = new Date();
+		var date = d.toLocaleString();
+		var message = {
+				"tstamp": date,
+				"fromName": "Admin",
+				"fromNumber": "",
+				"message": $('#messageInput').val(),
+				"fromCity": "",
+				"fromState": "",
+				"fromCountry": "",
+				"groupNumber": _this.group_number
 		}
+		_this.messagesRef.push( message );
+		$('#messageInput').val('');
+		return false;
 	});
 };
 
