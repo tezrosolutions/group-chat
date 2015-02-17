@@ -66,14 +66,6 @@ groupRef.on("added", function ( data ){
 		fromCountry:"",
 		groupNumber:snapshot.groupNumber
 	});
-/*
-	sendMessage( 
-		snapshot.groupNumber,
-		"Admin",
-		snapshot.groupNumber,
-		msg
-	);
-*/
 });
 
 groupRef.on("removed", function ( data ){
