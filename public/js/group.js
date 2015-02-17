@@ -25,6 +25,7 @@ groupManager.prototype.start = function(){
 //	listen for new members being added
 	this.groupRef.on("added", function( snapshot ){
 		var member = snapshot.value();
+console.log( member );		
 		_this.group_members[member._id] = member;
 		_this.displayGroup();
 	});
