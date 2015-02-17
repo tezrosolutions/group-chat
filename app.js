@@ -57,7 +57,7 @@ groupRef.on("added", function ( data ){
 	messagesRef.push({
 		sid: "",
 		type:'',
-		tstamp: new Date().toLocaleString()
+		tstamp: new Date().toLocaleString(),
 		fromName:"Admin",
 		fromNumber:"",
 		message:msg,
@@ -83,7 +83,7 @@ groupRef.on("removed", function ( data ){
 	messagesRef.push({
 		sid: "",
 		type:'',
-		tstamp: new Date().toLocaleString()
+		tstamp: new Date().toLocaleString(),
 		fromName:"Admin",
 		fromNumber:"",
 		message:msg,
