@@ -5,7 +5,7 @@ var groupManager = function(api_key, app_name, group_number) {
 	this.messagesRef = new DataMcFly(api_key, app_name, "messages");
 
 //	reference to our group collection...
-	this.groupRef = new DataMcFly(api_key, app_name, "group");
+	this.groupRef = new DataMcFly(api_key, app_name, "groups");
 	
 	this.group_members = [];
 };

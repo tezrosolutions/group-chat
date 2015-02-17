@@ -18,7 +18,7 @@ var client = twilio(config.twilio.sid, config.twilio.token );
 
 var datamcfly = require('datamcfly');
 var messagesRef = datamcfly.init(config.datamcfly.app_name, "messages", config.datamcfly.api_key);
-var groupRef = datamcfly.init(config.datamcfly.app_name, "group", config.datamcfly.api_key);
+var groupRef = datamcfly.init(config.datamcfly.app_name, "groups", config.datamcfly.api_key);
 
 /*
 	message:
