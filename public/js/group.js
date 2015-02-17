@@ -34,9 +34,12 @@ groupManager.prototype.start = function(){
 		e.preventDefault();
 		var member = {
 			'groupNumber': _this.group_number,
-			'name':$("#name").val(),
-			'number':clean_phone( $("#phone").val() )
+			'name': $("#name").val(),
+			'number': clean_phone( $("#phone").val() )
 		};
+
+console.log( member );
+
 		_this.groupRef.push( member );
 		$("#name").val('');
 		$("#phone").val('');
