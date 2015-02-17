@@ -100,7 +100,7 @@ groupManager.prototype.displayGroup = function(){
 		var member = this.group_members[i];
 		if( member !== undefined ){
 			var html = '';
-			html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
+			html = '<span>'+member.memberName+' ( ' + member.memberNumber + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
 			$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
 		}
 	}

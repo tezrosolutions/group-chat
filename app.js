@@ -53,7 +53,7 @@ messagesRef.on("added", function (data ){
 
 groupRef.on("added", function ( data ){
 	var snapshot = data.value();
-	var msg = snapshot.name + ' has joined the group';
+	var msg = snapshot.memberName + ' has joined the group';
 	//	send broadcast that new group member has been added
 
 	sendMessage( 
@@ -66,7 +66,7 @@ groupRef.on("added", function ( data ){
 
 groupRef.on("removed", function ( data ){
 	var snapshot = data.value();
-	var msg = snapshot.name + ' has left the group';
+	var msg = snapshot.memberName + ' has left the group';
 	//	send broadcast that a group member has been removed
 	sendMessage( 
 		snapshot.groupNumber,
@@ -79,13 +79,12 @@ groupRef.on("removed", function ( data ){
 //	broadcast a message to the group
 function sendMessage( group_number, from_name, from_number, message ){
 	var msg = from_name + ": " + message;
-//	loop through the group members and get list of people to message:
-	groupRef.where( {"number":{"$not":from_number}} ).on( "value", function ( data ){
+	groupRef.where( {"memberNumber":{"$not":from_number}} ).on( "value", function ( data ){
 		if( data.count() ){
 			data.forEach( function( snapshot ){
 				var member = snapshot.value();
 				client.sendMessage( {
-					to:member.number, 
+					to:member.memberNumber, 
 					from:group_number,
 					body:msg
 				}, function( err, data ) {
@@ -103,7 +102,7 @@ app.post('/message', function (request, response) {
 	var d = new Date();
 	var date = d.toLocaleString();
 		
-	groupRef.where( {"number":request.param('From')} ).limit(1).on( "value", function ( data ){
+	groupRef.where( {"memberN":request.param('From')} ).limit(1).on( "value", function ( data ){
 		if( data.count() ){
 			data.forEach( function( snapshot ){
 				var member = snapshot.value();
@@ -111,7 +110,7 @@ app.post('/message', function (request, response) {
 					sid: request.param('MessageSid'),
 					type:'text',
 					tstamp: date,
-					fromName:member.name,
+					fromName:member.memberName,
 					fromNumber:request.param('From'),
 					message:request.param('Body'),
 					fromCity:request.param('FromCity'),
