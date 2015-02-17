@@ -25,7 +25,7 @@ groupManager.prototype.start = function(){
 //	listen for new members being added
 	this.groupRef.on("added", function( snapshot ){
 		var member = snapshot.value();
-		_this.group_members[member._id] = undefined;
+		_this.group_members[member._id] = member;
 		_this.displayGroup();
 	});
 
@@ -43,25 +43,56 @@ groupManager.prototype.start = function(){
 	});
 
 //	listen for members being removed
+	$('div').on('click','a.delete', function(e){
+		var _id = e.target.id;
+		_this.groupRef.remove(_id);
+		return false;
+	});
+
 	this.groupRef.on("removed", function( snapshot ){
 		var member = snapshot.value();
-		_this.group_members[member._id] = member;
+		_this.group_members[member._id] = undefined;
 		_this.displayGroup();
 	});
 
 //	list any existing chat message
-
+	this.messagesRef.once('value', function (data) {
+		if( data.count() ){
+			data.forEach( function(message){				
+				_this.displayChatMessage(message.value() );
+			});
+		}
+	});		
 //	listen for incoming chat messages
- 
+	this.messagesRef.on('added', function (data) {
+		var message = data.value();
+		_this.displayChatMessage( message );
+	});
+
 //	listen for outgoing chat messages	
+	// When the user presses enter on the message input, write the message to firebase.
+	$('#messageInput').keypress(function (e) {
+		if (e.keyCode == 13) {
+			var d = new Date();
+			var date = d.toLocaleString();
+			var message = {
+					"tstamp": date,
+					"fromName": "Admin",
+					"fromNumber": "",
+					"message": $('#messageInput').val(),
+					"fromCity": "",
+					"fromState": "",
+					"fromCountry": "",
+					"groupNumber": _this.group_number
+			}
+			_this.messagesRef.push( message );
+			$('#messageInput').val('');
+		}
+	});
 };
 
+//	Display group members
 groupManager.prototype.displayGroup = function(){
-	
-};
-
-groupManager.prototype.displayChat = function(){
-	var _this = this;
 	$('#group_wrapper').html('');
 	for (var i in this.group_members ) {	
 		var member = this.group_members[i];
@@ -70,7 +101,19 @@ groupManager.prototype.displayChat = function(){
 			html = '<span>'+member.name+' ( ' + member.phone + ' )</span> <a href="#delete" class="delete" id="' + member._id+'">[remove]</a>';
 			$('<div/>').prepend( html ).appendTo($('#group_wrapper'));
 		}
-	}
+	}	
+};
+
+//	Display chat messages
+groupManager.prototype.displayChatMessage = function( message ){
+	var _this = this;
+	$('<li/>')
+		.attr("id",message._id)
+		.text(message.message)
+		.prepend(
+			$("<strong class='example-chat-username' />").text(message.fromName+': ')
+			).appendTo( $('#messagesDiv') );
+	$('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
 };
 
 
