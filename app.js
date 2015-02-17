@@ -54,26 +54,52 @@ messagesRef.on("added", function (data ){
 groupRef.on("added", function ( data ){
 	var snapshot = data.value();
 	var msg = snapshot.memberName + ' has joined the group';
-	//	send broadcast that new group member has been added
-
+	messagesRef.push({
+		sid: "",
+		type:'',
+		tstamp: new Date().toLocaleString()
+		fromName:"Admin",
+		fromNumber:"",
+		message:msg,
+		fromCity:"",
+		fromState:"",
+		fromCountry:"",
+		groupNumber:snapshot.groupNumber
+	});
+/*
 	sendMessage( 
 		snapshot.groupNumber,
 		"Admin",
 		snapshot.groupNumber,
 		msg
 	);
+*/
 });
 
 groupRef.on("removed", function ( data ){
 	var snapshot = data.value();
 	var msg = snapshot.memberName + ' has left the group';
 	//	send broadcast that a group member has been removed
+	messagesRef.push({
+		sid: "",
+		type:'',
+		tstamp: new Date().toLocaleString()
+		fromName:"Admin",
+		fromNumber:"",
+		message:msg,
+		fromCity:"",
+		fromState:"",
+		fromCountry:"",
+		groupNumber:snapshot.groupNumber
+	});
+/*
 	sendMessage( 
 		snapshot.groupNumber,
 		"Admin",
 		snapshot.groupNumber,
 		msg
 	);
+*/
 });
 
 //	broadcast a message to the group
@@ -99,9 +125,6 @@ function sendMessage( group_number, from_name, from_number, message ){
 
 //	listen for incoming sms messages
 app.post('/message', function (request, response) {
-	var d = new Date();
-	var date = d.toLocaleString();
-		
 	groupRef.where( {"memberNumber":request.param('From')} ).limit(1).on( "value", function ( data ){
 		if( data.count() ){
 			data.forEach( function( snapshot ){
@@ -109,7 +132,7 @@ app.post('/message', function (request, response) {
 				messagesRef.push({
 					sid: request.param('MessageSid'),
 					type:'text',
-					tstamp: date,
+					tstamp: new Date().toLocaleString(),
 					fromName:member.memberName,
 					fromNumber:request.param('From'),
 					message:request.param('Body'),
