@@ -55,6 +55,7 @@ groupRef.on("added", function ( data ){
 	var snapshot = data.value();
 	var msg = snapshot.name + ' has joined the group';
 	//	send broadcast that new group member has been added
+
 	sendMessage( 
 		snapshot.groupNumber,
 		"Admin",
