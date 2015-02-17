@@ -39,7 +39,7 @@ var groupRef = datamcfly.init(config.datamcfly.app_name, "group", config.datamcf
 */
 
 // listen for updates from Data McFly routes =========================================================
-/*
+
 //	when a new message is added to the Data McFly app, send it via Twilio...
 messagesRef.on("added", function (data ){
 	var snapshot = data.value();
@@ -74,7 +74,7 @@ groupRef.on("removed", function ( data ){
 		msg
 	);
 });
-*/
+
 //	broadcast a message to the group
 function sendMessage( group_number, from_name, from_number, message ){
 	var msg = from_name + ": " + message;
