@@ -37,6 +37,7 @@ console.log( member );
 			'name':$("#name").val(),
 			'number':$("#phone").val()
 		};
+console.log( member );
 		this.groupRef.push( member );
 		$("#name").val('');
 		$("#phone").val('');

@@ -21,4 +21,4 @@ body{font-size:12pt;font-family:helvetica}
 .chat ul li:last-child {margin: 0px; }
 .chat ul .chat-username {margin-right: 10px; }
 .chat footer {display: block;padding: 10px; }
-.chat footer input {border: 1px solid #ced3db;height: 40px; }
+.chat footer input {border: 1px solid #ced3db;height: 40px; width:75%;}
