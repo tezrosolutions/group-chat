@@ -56,7 +56,7 @@ groupManager.prototype.start = function(){
 	});
 
 //	list any existing chat message
-	this.messagesRef.once('value', function (data) {
+	this.messagesRef.on('value', function (data) {
 		if( data.count() ){
 			data.forEach( function(message){				
 				_this.displayChatMessage(message.value() );
