@@ -1,10 +1,12 @@
 # Group Chat
 ===================
 
-A Real-time SMS Group Chat App powered by Data McFly, Twilio and Node.js
+This is a fork for Real-time SMS Group Chat App powered by Data McFly, Twilio and Node.js developed. The main repo is here
+https://github.com/DataMcFly/group-chat
 
-This is a demo to show how you can use the real-time power of Data McFly with Twilio to create an SMS group chat system.
+We are working on incorporating starting a new group everytime a text is received on the configured Twilio Number. Stay tuned for updates.
+
+
 
 ### Setup
-
-Insert your Twilio and Data McFly credentials in `config.js`.
+Copy `config.js.dist` to `config.js` and insert your Twilio and Data McFly credentials.
