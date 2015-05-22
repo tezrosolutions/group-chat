@@ -78,7 +78,7 @@ console.log( member );
 		e.preventDefault();
 		var message = {
 				"tstamp": new Date().toLocaleString(),
-				"fromName": "Admin",
+				"fromName": "Fanucci's",
 				"fromNumber": "",
 				"message": $('#messageInput').val(),
 				"fromCity": "",

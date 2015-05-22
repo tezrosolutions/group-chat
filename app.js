@@ -41,7 +41,7 @@ groupRef.on("added", function ( data ){
 		sid: "",
 		type:'',
 		tstamp: new Date().toLocaleString(),
-		fromName:"Admin",
+		fromName:"Fanucci's",
 		fromNumber:"",
 		message:msg,
 		fromCity:"",
@@ -59,7 +59,7 @@ groupRef.on("removed", function ( data ){
 		sid: "",
 		type:'',
 		tstamp: new Date().toLocaleString(),
-		fromName:"Admin",
+		fromName:"Fanucci's",
 		fromNumber:"",
 		message:msg,
 		fromCity:"",
@@ -73,16 +73,21 @@ groupRef.on("removed", function ( data ){
 //	broadcast a message to the group
 function sendMessage( group_number, from_name, from_number, message ){
 	var msg = from_name + ": " + message;
-	groupRef.where( {"memberNumber":{"$not":from_number}} ).on( "value", function ( data ){
+	//groupRef.where( {"memberNumber":{"$not":from_number}} ).on( "value", function ( data ){
+	groupRef.get(function ( data ){
+		console.log(data.count())
 		if( data.count() ){
 			data.forEach( function( snapshot ){
+
 				var member = snapshot.value();
+                if(member.memberNumber != from_number) {
 				client.sendMessage( {
 					to:member.memberNumber, 
 					from:group_number,
 					body:msg
 				}, function( err, data ) {
 				});
+			}
 			});
 		}
 	});
@@ -93,7 +98,7 @@ function sendMessage( group_number, from_name, from_number, message ){
 
 //	listen for incoming sms messages
 app.post('/message', function (request, response) {
-	groupRef.where( {"memberNumber":request.param('From')} ).limit(1).on( "value", function ( data ){
+	groupRef.where({"memberNumber":request.param('From')}).limit(1).on( "value", function ( data ){
 		if( data.count() ){
 			data.forEach( function( snapshot ){
 				var member = snapshot.value();
