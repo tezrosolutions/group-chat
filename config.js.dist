@@ -1,0 +1,16 @@
+module.exports = {
+	// Twilio API keys
+	twilio: {
+		sid: "YOUR TWILIO ACCOUNT SID,
+		token: "YOUR TWILIO ACCOUNT TOKEN",
+		from_number: "YOUR TWILIO PHONE NUMBER"
+	},
+	//	Data McFly settings
+	datamcfly: {
+		api_key: "Data McFly API Key",
+		app_name: "Data McFly App Name"
+	},
+	//	Username and password for admin section.
+	un: 'admin',
+	pw: 'password'
+};
