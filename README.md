@@ -1,4 +1,4 @@
-# Group Chat
+# Multi-Group Chat
 ===================
 
 This is a fork for Real-time SMS Group Chat App powered by Data McFly, Twilio and Node.js developed. The main repo is here
